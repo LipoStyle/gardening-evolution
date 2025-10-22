@@ -1,0 +1,73 @@
+.hero {
+  position: relative;
+  min-height: 100svh;            /* full viewport, mobile-safe */
+  display: grid;
+  place-items: center;           /* center content */
+  padding: 24px;
+  overflow: clip;
+
+  /* background image */
+  background-image: url("/images/hero.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* dark overlay below content */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, black 55%, transparent),
+      color-mix(in srgb, black 35%, transparent)
+    );
+  /* slight tint toward forest so it matches brand */
+  mix-blend-mode: multiply;
+}
+
+/* content wrapper sits above overlay */
+.inner {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 720px);
+  display: grid;
+  gap: 18px;
+  text-align: center;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+/* heading: responsive, readable on image */
+.title {
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,.35);
+  font-size: clamp(1.5rem, 3.2vw + 0.5rem, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: .2px;
+}
+
+/* optional: give the form card a subtle elevation against bg */
+.formShell {
+  justify-self: center;
+  width: min(100%, 460px);
+  background: color-mix(in srgb, var(--card-bg) 92%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sand) 40%, black 10%);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.25);
+}
+
+/* breathing room on larger screens */
+@media (min-width: 720px) {
+  .inner { gap: 22px; padding: 24px; }
+  .formShell { padding: 20px; }
+}
+
+/* reduced motion: no blend tricks */
+@media (prefers-reduced-motion: reduce) {
+  .hero::before { mix-blend-mode: normal; }
+}
