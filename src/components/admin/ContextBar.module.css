@@ -1,0 +1,9 @@
+.bar{ padding:1rem; display:grid; gap:.75rem; }
+.row{ display:grid; grid-template-columns:1fr 1fr; gap:.75rem; }
+.input,.select{
+  border:1px solid var(--border); border-radius:.5rem;
+  background:var(--surface); color:var(--text);
+  padding:.625rem .75rem;
+}
+.helper{ color:var(--muted-text); }
+@media (max-width:900px){ .row{ grid-template-columns:1fr; } }

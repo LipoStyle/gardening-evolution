@@ -1,0 +1,22 @@
+.button {
+  display: inline-grid;
+  place-items: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--forest) 20%, var(--leaf) 60%);
+  background: color-mix(in srgb, var(--leaf) 75%, var(--forest) 10%);
+  color: var(--primary-contrast);
+  font-weight: 700;
+  letter-spacing: .2px;
+  cursor: pointer;
+  transition: transform 100ms ease, filter 120ms ease, box-shadow 160ms ease;
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+}
+
+.button:hover { filter: brightness(0.97); }
+.button:active { transform: translateY(1px); }
+.button:disabled,
+.button[aria-busy="true"] {
+  opacity: .7;
+  cursor: not-allowed;
+}

@@ -1,0 +1,158 @@
+/* ==== Outer wrapper ==== */
+.wrap {
+  padding: 12px;
+}
+
+/* ==== Grid list ==== */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;        /* mobile: one per row */
+  gap: 12px;
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+/* Desktop: multi-column grid */
+@media (min-width: 700px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(280px, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(280px, 1fr));
+  }
+}
+
+/* ==== Card ==== */
+.card {
+  display: flex;
+  flex-direction: column;            /* mobile: column */
+  align-items: center;               /* center contents */
+  text-align: center;                /* center text on mobile */
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 16px;
+
+  background: color-mix(in srgb, var(--card-bg) 82%, transparent);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid color-mix(in srgb, var(--forest) 12%, var(--sand) 30%);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+
+  transition: transform 120ms ease, box-shadow 150ms ease;
+  animation: fadeUp .28s ease both;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.18);
+}
+
+/* Desktop: inside layout switches to row */
+@media (min-width: 700px) {
+  .card {
+    flex-direction: row;             /* desktop: row */
+    align-items: center;             /* center vertically */
+    text-align: left;                /* text left on desktop */
+  }
+}
+
+/* ==== Avatar ==== */
+.avatarWrap {
+  display: grid;
+  place-items: center;
+}
+
+.avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--primary-contrast);
+  background: color-mix(in srgb, var(--leaf) 70%, var(--forest) 30%);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--leaf) 25%, transparent);
+  overflow: hidden;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatarInitials { text-transform: uppercase; }
+
+/* ==== Meta (text block) ==== */
+.meta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;               /* mobile center text */
+  gap: 4px;
+}
+
+/* On desktop, align text to start and let it grow */
+@media (min-width: 700px) {
+  .meta {
+    align-items: flex-start;
+    flex: 1;
+    margin-left: 12px;
+  }
+}
+
+.name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--forest);
+}
+
+.line {
+  font-size: .92rem;
+  color: var(--muted-text);
+}
+
+.fee {
+  margin-top: 6px;
+  font-weight: 600;
+  font-size: .95rem;
+  color: var(--leaf);
+}
+
+/* ==== Action button ==== */
+.viewBtn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--leaf);
+  color: var(--primary-contrast);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 120ms ease, transform 100ms ease;
+}
+
+.viewBtn:hover { background: color-mix(in srgb, var(--leaf) 85%, var(--forest) 15%); }
+.viewBtn:active { transform: translateY(1px); }
+
+/* On desktop, push button to the end */
+@media (min-width: 700px) {
+  .viewBtn { margin-left: auto; }
+}
+
+/* ==== Empty state ==== */
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--muted-text);
+  padding: 16px;
+}
+
+/* ==== Motion ==== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
