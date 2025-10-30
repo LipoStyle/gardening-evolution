@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./LoginForm.module.css";
 
 export default function LoginForm() {
@@ -8,26 +9,47 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string }>({});
+  const router = useRouter();                     // ⬅️ add this near other hooks
+  const [serverError, setServerError] = useState<string | null>(null); // ⬅️ add this
 
   function validate() {
     const next: typeof errors = {};
     if (!email.includes("@")) next.email = "Please enter a valid email address.";
-    if (password.length < 6) next.password = "Password must be at least 6 characters.";
+    if (!password) next.password = "Password is required.";
     setErrors(next);
     return Object.keys(next).length === 0;
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    if (!validate()) return;
-    setBusy(true);
-    try {
-      await new Promise((r) => setTimeout(r, 600)); // demo delay
-      alert("Submitted (demo). Backend wiring comes later.");
-    } finally {
-      setBusy(false);
+  e.preventDefault();
+  setServerError(null);
+
+  if (!validate()) return;
+  setBusy(true);
+
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok || !data?.ok) {
+      setServerError(data?.error ?? "Login failed.");
+      return;
     }
+
+    // success → go to admin dashboard
+    router.push("/admin");
+  } catch (err) {
+    setServerError("Network error. Please try again.");
+  } finally {
+    setBusy(false);
   }
+}
+
 
   return (
     <section className={styles.wrapper} aria-label="Login section">
@@ -93,7 +115,8 @@ export default function LoginForm() {
             >
               {busy ? "Logging in…" : "Log in"}
             </button>
-
+            {serverError && <p className={styles.errorMsg}>{serverError}</p>}
+            
             <p className={styles.helper}>
               Don’t have an account?{" "}
               <a className={styles.link} href="#">

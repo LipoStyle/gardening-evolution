@@ -8,7 +8,7 @@
 /* glassy card */
 .card {
   width: min(100%, 420px);
-  background: color-mix(in srgb, var(--card-bg) 75%, transparent);
+  background: var(--card-bg);
   backdrop-filter: blur(14px) saturate(180%);
   -webkit-backdrop-filter: blur(14px) saturate(180%);
   border: 1px solid color-mix(in srgb, var(--sand) 40%, var(--forest) 15%);
