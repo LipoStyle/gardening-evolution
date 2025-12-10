@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     const { username, password } = await req.json();
 
     const result = await pool.query(
-      "SELECT * FROM public.admin WHERE username = $1",
+      'SELECT * FROM "public"."Admin" WHERE username = $1',
       [username]
     );
 
@@ -34,13 +34,20 @@ export async function POST(req: NextRequest) {
     const token = jwt.sign(
       { id: user.id, username: user.username },
       JWT_SECRET,
-      {
-        expiresIn: "2h",
-      }
+      { expiresIn: "2h" }
     );
 
-    const response = NextResponse.json({ message: "Login successful" });
-    response.cookies.set("token", token, { httpOnly: true, path: "/" });
+    const response = NextResponse.json({
+      message: "Login successful",
+      user: { id: user.id, username: user.username },
+    });
+
+    response.cookies.set("token", token, {
+      httpOnly: true,
+      path: "/",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
 
     return response;
   } catch (err) {

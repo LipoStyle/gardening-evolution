@@ -1,21 +1,22 @@
+// app/dashboard/page.tsx
+"use server";
+
 import { cookies } from "next/headers";
-import { verifyToken } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
-  // await cookies()
+  // Await cookies() because it returns a Promise
   const cookieStore = await cookies();
-  const tokenCookie = cookieStore.get("token");
-  const token = tokenCookie?.value;
+  const token = cookieStore.get("token")?.value;
 
-  if (!token || !verifyToken(token)) {
-    redirect("/");
+  if (!token) {
+    redirect("/"); // redirect to login if no token
   }
 
   return (
     <div>
-      <h1>Admin Dashboard</h1>
-      <p>Welcome! You are successfully authenticated.</p>
+      <h1>Dashboard</h1>
+      <p>Welcome to your dashboard! You are authenticated.</p>
     </div>
   );
 }
