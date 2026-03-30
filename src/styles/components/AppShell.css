@@ -1,0 +1,38 @@
+.AppShell {
+  min-height: 100%;
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.AppHeader__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
+  height: auto;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--fg);
+  background: transparent;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.AppHeader__link--button {
+  cursor: pointer;
+  font: inherit;
+}
+
+.AppMain {
+  width: min(var(--content-max), 100%);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: clamp(18px, 4vw, 32px) max(var(--page-gutter), env(safe-area-inset-left, 0px))
+    clamp(40px, 10vw, 72px) max(var(--page-gutter), env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+

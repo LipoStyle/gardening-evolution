@@ -1,0 +1,27 @@
+.HomeHero {
+  padding: clamp(18px, 4vw, 28px) clamp(16px, 3.5vw, 24px);
+  border: 1px solid var(--border);
+  border-radius: clamp(14px, 2vw, 18px);
+  background: var(--card);
+}
+
+.HomeHero__title {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.HomeHero__subtitle {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: clamp(14px, 1.5vw, 16px);
+}
+
+.HomeHero__meta {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+  word-break: break-all;
+}
+

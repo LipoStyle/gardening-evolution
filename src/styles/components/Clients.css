@@ -1,0 +1,216 @@
+.ClientsForm {
+  width: min(560px, 100%);
+}
+
+.ClientsPage {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ClientsPage__intro {
+  margin-bottom: 0;
+}
+
+.ClientsPage__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+@media (max-width: 480px) {
+  .ClientsPage__toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ClientsPage__toolbar .AppHeader__link {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.ClientsPage__backDash {
+  color: var(--muted);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.ClientsPage__backDash:hover {
+  color: var(--fg);
+}
+
+.ClientsPage__empty {
+  margin: 0;
+  padding: 20px;
+  border: 1px dashed var(--border);
+  border-radius: 16px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.ClientGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .ClientGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .ClientGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ClientCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--bg) 75%, var(--card));
+  overflow: hidden;
+}
+
+.ClientCard__header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.ClientCard__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.ClientCard__city {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ClientCard__body {
+  padding: 12px 16px;
+  flex: 1;
+  display: grid;
+  gap: 8px;
+}
+
+.ClientCard__line {
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  font-size: clamp(13px, 1.4vw, 14px);
+}
+
+@media (max-width: 400px) {
+  .ClientCard__line {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+.ClientCard__label {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.ClientCard__footer {
+  padding: 12px 16px 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 480px) {
+  .ClientCard__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .ClientCard__footer .ClientCard__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+.ClientCard__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--touch-target);
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg);
+  text-decoration: none;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ClientCard__btn:hover {
+  background: var(--card);
+}
+
+.ClientCard__btn--secondary {
+  font-weight: 700;
+}
+
+.ClientCard__btn--danger {
+  border-color: color-mix(in srgb, #ef4444 45%, var(--border));
+  color: color-mix(in srgb, #ef4444 90%, var(--fg));
+}
+
+.ClientCard__btn--danger:hover {
+  background: color-mix(in srgb, #ef4444 12%, var(--card));
+}
+
+.ClientDetail__dl {
+  margin: 20px 0 0;
+  display: grid;
+  gap: 12px;
+}
+
+.ClientDetail__row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+  font-size: 15px;
+}
+
+.ClientDetail__row dt {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.ClientDetail__row dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.ClientDetail__actions {
+  margin-top: 20px;
+}
+
+@media (max-width: 560px) {
+  .ClientDetail__row {
+    grid-template-columns: 1fr;
+  }
+}

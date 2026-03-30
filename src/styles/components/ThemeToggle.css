@@ -1,0 +1,27 @@
+.ThemeToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--touch-target);
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font: inherit;
+}
+
+.ThemeToggle:hover {
+  background: var(--card);
+}
+
+.ThemeToggle__label {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.ThemeToggle__value {
+  font-weight: 700;
+}
+

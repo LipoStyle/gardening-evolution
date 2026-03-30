@@ -1,0 +1,64 @@
+@import "./responsive-tokens.css";
+@import "./components/AppShell.css";
+@import "./components/Header.css";
+@import "./components/HeaderBrand.css";
+@import "./components/HeaderFeatures.css";
+@import "./components/LanguageSelect.css";
+@import "./components/ThemeToggle.css";
+@import "./components/HomeHero.css";
+@import "./components/Auth.css";
+@import "./components/Dashboard.css";
+@import "./components/Calendar.css";
+@import "./components/Clients.css";
+
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #0b1220;
+  --muted: #5a667a;
+  --border: rgba(11, 18, 32, 0.12);
+  --card: rgba(11, 18, 32, 0.04);
+  --focus: #2563eb;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0b1220;
+  --fg: #e6edf7;
+  --muted: #a6b3c8;
+  --border: rgba(230, 237, 247, 0.14);
+  --card: rgba(230, 237, 247, 0.06);
+  --focus: #60a5fa;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.FullBleed {
+  width: 100vw;
+  max-width: 100%;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: max(var(--page-gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--page-gutter), env(safe-area-inset-right, 0px));
+  box-sizing: border-box;
+}
+

@@ -1,0 +1,88 @@
+.AuthCard {
+  width: min(520px, 100%);
+  margin: 0 auto;
+  padding: clamp(18px, 4vw, 24px);
+  border: 1px solid var(--border);
+  border-radius: clamp(14px, 2vw, 18px);
+  background: var(--card);
+}
+
+.AuthCard__title {
+  margin: 0;
+  font-size: clamp(22px, 5vw, 28px);
+  letter-spacing: -0.02em;
+}
+
+.AuthCard__hint {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.AuthCard__error {
+  margin-top: 14px;
+  padding: 12px 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, #ef4444 40%, var(--border));
+  background: color-mix(in srgb, #ef4444 12%, var(--card));
+  color: var(--fg);
+}
+
+.AuthForm {
+  margin-top: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.AuthField {
+  display: grid;
+  gap: 6px;
+}
+
+.AuthField__label {
+  font-weight: 700;
+  color: var(--fg);
+}
+
+.AuthField__hint {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.AuthField__input {
+  min-height: var(--touch-target);
+  height: auto;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+}
+
+.AuthForm__submit {
+  min-height: var(--touch-target);
+  height: auto;
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 70%, var(--card));
+  color: var(--fg);
+  cursor: pointer;
+  font-weight: 800;
+}
+
+.AuthForm__submit:hover {
+  background: var(--card);
+}
+
+.AuthCard__footer {
+  margin: 14px 0 0;
+  color: var(--muted);
+}
+
+.AuthCard__link {
+  color: inherit;
+}
+

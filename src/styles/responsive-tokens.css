@@ -1,0 +1,28 @@
+/* Shared layout tokens — use in media queries via matching px values in each file */
+:root {
+  --page-gutter: clamp(12px, 3.5vw, 28px);
+  --content-max: 1100px;
+  --touch-target: 44px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 18px;
+}
+
+/* Mobile-first base: readable type, no horizontal bleed from 100vw + padding */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overflow-x: clip;
+}
+
+body {
+  font-size: clamp(15px, 0.25vw + 14px, 17px);
+  line-height: 1.5;
+}
+
+/* Prefer slightly larger tap targets on coarse pointers (phones / tablets) */
+@media (hover: none) and (pointer: coarse) {
+  :root {
+    --touch-target: 48px;
+  }
+}

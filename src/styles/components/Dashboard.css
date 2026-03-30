@@ -1,0 +1,122 @@
+.Dashboard {
+  display: grid;
+  gap: clamp(16px, 3vw, 22px);
+}
+
+.DashboardTiles {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.DashboardTile {
+  grid-column: span 6;
+  min-height: clamp(108px, 22vw, 140px);
+  padding: clamp(14px, 3vw, 18px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+  text-decoration: none;
+  color: var(--fg);
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.DashboardTile:hover {
+  background: color-mix(in srgb, var(--card) 70%, transparent);
+}
+
+.DashboardTile__title {
+  font-weight: 1000;
+  letter-spacing: -0.02em;
+  font-size: 18px;
+}
+
+.DashboardTile__subtitle {
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.DashboardTile__metrics {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  align-items: flex-start;
+}
+
+.DashboardTile__metric {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
+.DashboardTile__stat {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.DashboardTile__statNumber {
+  font-size: clamp(22px, 5vw, 28px);
+  font-weight: 1000;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.DashboardTile__statNumber--currency {
+  font-size: clamp(17px, 4vw, 22px);
+  letter-spacing: -0.02em;
+}
+
+.DashboardTile__statCaption {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.DashboardTile__stat--muted {
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+@media (max-width: 720px) {
+  .DashboardTile {
+    grid-column: span 12;
+  }
+  .DashboardTile__metrics {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .DashboardTile__metric {
+    width: 100%;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 900px) {
+  .DashboardTile__metrics {
+    gap: 12px 20px;
+  }
+}
+
+.Dashboard__debug {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+}
+
+.Dashboard__debugText {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+

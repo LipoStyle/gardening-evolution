@@ -1,0 +1,43 @@
+.HeaderBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--fg);
+}
+
+.HeaderBrand__logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  background: var(--card);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.HeaderBrand__name {
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  font-size: clamp(14px, 2.8vw, 17px);
+  max-width: min(220px, 52vw);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 480px) {
+  .HeaderBrand__name {
+    max-width: min(280px, 45vw);
+  }
+}
+
+@media (min-width: 1024px) {
+  .HeaderBrand__name {
+    max-width: none;
+    white-space: normal;
+  }
+}
+

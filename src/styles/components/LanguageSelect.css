@@ -1,0 +1,28 @@
+.LanguageSelect {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: var(--touch-target);
+  padding: 6px 12px 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--fg);
+}
+
+.LanguageSelect__label {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.LanguageSelect__select {
+  border: 0;
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-weight: 700;
+  outline: none;
+  cursor: pointer;
+}
+
