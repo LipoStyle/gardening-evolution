@@ -68,6 +68,11 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
             </div>
           )}
         </Link>
+        <Link className="DashboardTile" href={`/${locale}/extras`}>
+          <div className="DashboardTile__title">Extras</div>
+          <div className="DashboardTile__subtitle">Track extra income jobs</div>
+          <div className="DashboardTile__stat DashboardTile__stat--muted">Filter by date and client/person</div>
+        </Link>
       </section>
     </div>
   );

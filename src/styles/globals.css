@@ -10,6 +10,7 @@
 @import "./components/Dashboard.css";
 @import "./components/Calendar.css";
 @import "./components/Clients.css";
+@import "./components/Extras.css";
 
 :root {
   color-scheme: light;
