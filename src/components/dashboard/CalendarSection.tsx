@@ -82,13 +82,38 @@ function MonthPickerModal({
   );
 }
 
+function DashboardIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      xmlns="http://www.w3.org/2000/svg"
+      width={20}
+      height={20}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden={true}
+    >
+      <rect width="7" height="9" x="3" y="3" rx="1" />
+      <rect width="7" height="5" x="14" y="3" rx="1" />
+      <rect width="7" height="9" x="14" y="12" rx="1" />
+      <rect width="7" height="5" x="3" y="16" rx="1" />
+    </svg>
+  );
+}
+
 function CalendarToolbar({
+  locale,
   year,
   monthIndex,
   onPrev,
   onNext,
   onOpenMonthPicker,
 }: {
+  locale: Locale;
   year: number;
   monthIndex: number;
   onPrev: () => void;
@@ -97,16 +122,22 @@ function CalendarToolbar({
 }) {
   return (
     <header className="CalendarToolbar">
-      <div className="CalendarToolbar__nav">
-        <button type="button" className="CalendarToolbar__arrow" onClick={onPrev} aria-label="Previous month">
-          ←
-        </button>
-        <button type="button" className="CalendarToolbar__month" onClick={onOpenMonthPicker} aria-label="Choose month">
-          {MONTHS[monthIndex]} {year}
-        </button>
-        <button type="button" className="CalendarToolbar__arrow" onClick={onNext} aria-label="Next month">
-          →
-        </button>
+      <div className="CalendarToolbar__bar">
+        <div className="CalendarToolbar__nav">
+          <button type="button" className="CalendarToolbar__arrow" onClick={onPrev} aria-label="Previous month">
+            ←
+          </button>
+          <button type="button" className="CalendarToolbar__month" onClick={onOpenMonthPicker} aria-label="Choose month">
+            {MONTHS[monthIndex]} {year}
+          </button>
+          <button type="button" className="CalendarToolbar__arrow" onClick={onNext} aria-label="Next month">
+            →
+          </button>
+        </div>
+        <Link className="CalendarToolbar__dashboard" href={`/${locale}/dashboard`}>
+          <DashboardIcon className="CalendarToolbar__dashboardIcon" />
+          <span className="CalendarToolbar__dashboardLabel">Back to dashboard</span>
+        </Link>
       </div>
     </header>
   );
@@ -182,6 +213,7 @@ export function CalendarSection({ locale }: { locale: Locale }) {
   return (
     <section className="CalendarSection" aria-label="Calendar">
       <CalendarToolbar
+        locale={locale}
         year={year}
         monthIndex={monthIndex}
         onPrev={goPrev}

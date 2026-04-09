@@ -20,20 +20,23 @@
   max-width: 100%;
 }
 
-/* —— Toolbar (month navigation) — full-width bar —— */
+/* —— Toolbar: compact bar, centered; gap between month nav and dashboard —— */
 
 .CalendarToolbar {
   display: flex;
-  justify-content: stretch;
+  justify-content: center;
   width: 100%;
 }
 
-.CalendarToolbar__nav {
+.CalendarToolbar__bar {
   display: flex;
-  align-items: stretch;
-  gap: clamp(10px, 2vw, 16px);
-  width: 100%;
-  padding: clamp(12px, 2vw, 16px) clamp(14px, 2.5vw, 22px);
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(20px, 4.5vw, 40px);
+  width: fit-content;
+  max-width: 100%;
+  padding: clamp(12px, 2vw, 16px) clamp(16px, 3vw, 24px);
   border-radius: 20px;
   border: 1px solid var(--border);
   background: linear-gradient(
@@ -44,6 +47,14 @@
   box-shadow:
     0 1px 0 color-mix(in srgb, var(--fg) 6%, transparent),
     0 12px 40px color-mix(in srgb, var(--fg) 5%, transparent);
+}
+
+.CalendarToolbar__nav {
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  gap: clamp(12px, 2.2vw, 18px);
+  min-width: 0;
 }
 
 .CalendarToolbar__arrow {
@@ -77,7 +88,7 @@
 }
 
 .CalendarToolbar__month {
-  flex: 1;
+  flex: 0 1 auto;
   min-width: 0;
   min-height: var(--touch-target);
   padding: clamp(12px, 2vw, 16px) clamp(16px, 3vw, 28px);
@@ -91,7 +102,7 @@
   font-size: clamp(1.05rem, 2.4vw, 1.35rem);
   letter-spacing: -0.02em;
   line-height: 1.2;
-  text-align: center;
+  text-align: left;
   transition:
     background 0.15s ease,
     border-color 0.15s ease,
@@ -102,6 +113,67 @@
   background: color-mix(in srgb, var(--card) 65%, var(--bg));
   border-color: color-mix(in srgb, var(--border) 55%, var(--muted));
   box-shadow: 0 4px 18px color-mix(in srgb, var(--fg) 6%, transparent);
+}
+
+.CalendarToolbar__dashboard {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-shrink: 0;
+  min-height: var(--touch-target);
+  padding: 8px 14px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--fg));
+  background: color-mix(in srgb, var(--bg) 40%, transparent);
+  color: var(--fg);
+  text-decoration: none;
+  font: inherit;
+  font-weight: 800;
+  font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  letter-spacing: 0.01em;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.CalendarToolbar__dashboard:hover {
+  background: color-mix(in srgb, var(--card) 75%, var(--bg));
+  border-color: color-mix(in srgb, var(--border) 50%, var(--muted));
+  box-shadow: 0 4px 18px color-mix(in srgb, var(--fg) 6%, transparent);
+}
+
+.CalendarToolbar__dashboard:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.CalendarToolbar__dashboardIcon {
+  flex-shrink: 0;
+  opacity: 0.92;
+}
+
+.CalendarToolbar__dashboardLabel {
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .CalendarToolbar__bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(14px, 3vw, 20px);
+    align-self: center;
+  }
+
+  .CalendarToolbar__nav {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .CalendarToolbar__dashboard {
+    align-self: flex-end;
+  }
 }
 
 /* —— Day grid: fills remaining height, 2 → 3 → 4 → 6 cols —— */
