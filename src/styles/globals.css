@@ -53,9 +53,10 @@ body {
   outline-offset: 2px;
 }
 
+/* Break out of AppMain’s content max-width; 100% max-width would cap to ~1100px */
 .FullBleed {
   width: 100vw;
-  max-width: 100%;
+  max-width: 100vw;
   margin-left: calc(50% - 50vw);
   margin-right: calc(50% - 50vw);
   padding-left: max(var(--page-gutter), env(safe-area-inset-left, 0px));

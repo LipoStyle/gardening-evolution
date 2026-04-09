@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import * as React from "react";
+import { localeToLangTag, type Locale } from "@/i18n/config";
 
 const MONTHS = [
   "January",
@@ -17,18 +19,8 @@ const MONTHS = [
   "December",
 ] as const;
 
-const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
-
-function startOfMonth(year: number, monthIndex: number) {
-  return new Date(year, monthIndex, 1, 12, 0, 0, 0);
-}
-
 function daysInMonth(year: number, monthIndex: number) {
   return new Date(year, monthIndex + 1, 0).getDate();
-}
-
-function weekdayIndexMondayFirst(date: Date) {
-  return (date.getDay() + 6) % 7;
 }
 
 function addMonths(year: number, monthIndex: number, delta: number) {
@@ -36,10 +28,14 @@ function addMonths(year: number, monthIndex: number, delta: number) {
   return { year: d.getFullYear(), monthIndex: d.getMonth() };
 }
 
-function formatDayHeader(d: Date) {
-  const dayNum = d.getDate();
-  const dayName = d.toLocaleDateString("en-US", { weekday: "long" });
-  return `${dayNum} ${dayName}`;
+function toIsoDateLocal(year: number, monthIndex: number, day: number) {
+  const m = String(monthIndex + 1).padStart(2, "0");
+  const d = String(day).padStart(2, "0");
+  return `${year}-${m}-${d}`;
+}
+
+function isSameCalendarDay(a: Date, b: Date) {
+  return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 }
 
 function MonthPickerModal({
@@ -86,7 +82,7 @@ function MonthPickerModal({
   );
 }
 
-function CalendarHeader({
+function CalendarToolbar({
   year,
   monthIndex,
   onPrev,
@@ -100,60 +96,72 @@ function CalendarHeader({
   onOpenMonthPicker: () => void;
 }) {
   return (
-    <div className="CalendarHeader">
-      <div className="CalendarHeader__nav">
-        <button type="button" className="CalendarHeader__arrow" onClick={onPrev} aria-label="Previous month">
+    <header className="CalendarToolbar">
+      <div className="CalendarToolbar__nav">
+        <button type="button" className="CalendarToolbar__arrow" onClick={onPrev} aria-label="Previous month">
           ←
         </button>
-        <button type="button" className="CalendarHeader__month" onClick={onOpenMonthPicker} aria-label="Choose month">
+        <button type="button" className="CalendarToolbar__month" onClick={onOpenMonthPicker} aria-label="Choose month">
           {MONTHS[monthIndex]} {year}
         </button>
-        <button type="button" className="CalendarHeader__arrow" onClick={onNext} aria-label="Next month">
+        <button type="button" className="CalendarToolbar__arrow" onClick={onNext} aria-label="Next month">
           →
         </button>
       </div>
-    </div>
+    </header>
   );
 }
 
-function CalendarBody({ year, monthIndex }: { year: number; monthIndex: number }) {
-  const first = startOfMonth(year, monthIndex);
-  const dim = daysInMonth(year, monthIndex);
-  const pad = weekdayIndexMondayFirst(first);
+function CalendarMonthGrid({
+  year,
+  monthIndex,
+  locale,
+}: {
+  year: number;
+  monthIndex: number;
+  locale: Locale;
+}) {
+  const lang = localeToLangTag[locale];
+  const today = React.useMemo(() => new Date(), []);
 
-  const cells: Array<{ kind: "empty" } | { kind: "day"; date: Date }> = [];
-  for (let i = 0; i < pad; i++) cells.push({ kind: "empty" });
-  for (let day = 1; day <= dim; day++) cells.push({ kind: "day", date: new Date(year, monthIndex, day, 12, 0, 0, 0) });
+  const days = React.useMemo(() => {
+    const dim = daysInMonth(year, monthIndex);
+    const out: { date: Date; iso: string }[] = [];
+    for (let day = 1; day <= dim; day++) {
+      const date = new Date(year, monthIndex, day, 12, 0, 0, 0);
+      out.push({ date, iso: toIsoDateLocal(year, monthIndex, day) });
+    }
+    return out;
+  }, [year, monthIndex]);
 
   return (
-    <div className="CalendarBody">
-      <div className="CalendarBody__scroll">
-        <div className="CalendarBody__weekdays" aria-hidden="true">
-          {WEEKDAYS.map((w) => (
-            <div key={w} className="CalendarBody__weekday">
-              {w}
-            </div>
-          ))}
-        </div>
-
-        <div className="CalendarGrid">
-          {cells.map((cell, idx) =>
-            cell.kind === "empty" ? (
-              <div key={`e-${idx}`} className="DayCard DayCard--empty" />
-            ) : (
-              <article key={cell.date.toISOString()} className="DayCard">
-                <header className="DayCard__header">{formatDayHeader(cell.date)}</header>
-                <div className="DayCard__body" />
-              </article>
-            )
-          )}
-        </div>
+    <div className="CalendarMonth">
+      <div className="CalendarDayGrid" role="list">
+        {days.map(({ date, iso }) => {
+          const weekday = date.toLocaleDateString(lang, { weekday: "long" });
+          const isToday = isSameCalendarDay(date, today);
+          return (
+            <Link
+              key={iso}
+              href={`/${locale}/calendar/${iso}`}
+              className={isToday ? "DayCard DayCard--today" : "DayCard"}
+              role="listitem"
+              aria-label={date.toLocaleDateString(lang, { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
+            >
+              <div className="DayCard__header">
+                <span>{date.getDate()}</span>
+                <span className="DayCard__headerLine">{weekday}</span>
+              </div>
+              <div className="DayCard__body" />
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
 }
 
-export function CalendarSection() {
+export function CalendarSection({ locale }: { locale: Locale }) {
   const now = React.useMemo(() => new Date(), []);
   const [year, setYear] = React.useState(now.getFullYear());
   const [monthIndex, setMonthIndex] = React.useState(now.getMonth());
@@ -172,8 +180,8 @@ export function CalendarSection() {
   }, [monthIndex, year]);
 
   return (
-    <section className="CalendarSection">
-      <CalendarHeader
+    <section className="CalendarSection" aria-label="Calendar">
+      <CalendarToolbar
         year={year}
         monthIndex={monthIndex}
         onPrev={goPrev}
@@ -181,7 +189,7 @@ export function CalendarSection() {
         onOpenMonthPicker={() => setMonthPickerOpen(true)}
       />
 
-      <CalendarBody year={year} monthIndex={monthIndex} />
+      <CalendarMonthGrid year={year} monthIndex={monthIndex} locale={locale} />
 
       <MonthPickerModal
         open={monthPickerOpen}
@@ -193,4 +201,3 @@ export function CalendarSection() {
     </section>
   );
 }
-

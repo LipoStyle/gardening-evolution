@@ -1,42 +1,11 @@
 import Link from "next/link";
 import { isLocale, type Locale } from "@/i18n/config";
 import { formatEuroFromUnknown } from "@/lib/format";
+import { currentMonthRange, monthRangeFrom, yearRangeFrom } from "@/lib/monthRange";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ClientRow } from "@/types/client";
 import type { ExtraRowWithClient } from "@/types/extra";
 import { ExtraCard } from "@/components/extras/ExtraCard";
-
-function pad2(n: number) {
-  return String(n).padStart(2, "0");
-}
-
-function monthRangeFrom(ym: string) {
-  const m = /^(\d{4})-(\d{2})$/.exec(ym);
-  if (!m) return null;
-  const year = Number(m[1]);
-  const month = Number(m[2]);
-  if (!Number.isFinite(year) || !Number.isFinite(month) || month < 1 || month > 12) return null;
-  const start = `${year}-${pad2(month)}-01`;
-  const nextMonth = month === 12 ? 1 : month + 1;
-  const nextYear = month === 12 ? year + 1 : year;
-  const endDate = new Date(Date.UTC(nextYear, nextMonth - 1, 1));
-  endDate.setUTCDate(endDate.getUTCDate() - 1);
-  const end = `${endDate.getUTCFullYear()}-${pad2(endDate.getUTCMonth() + 1)}-${pad2(endDate.getUTCDate())}`;
-  return { start, end };
-}
-
-function yearRangeFrom(yearRaw: string) {
-  const y = Number.parseInt(yearRaw, 10);
-  if (!Number.isFinite(y) || y < 1970 || y > 2100) return null;
-  return { start: `${y}-01-01`, end: `${y}-12-31` };
-}
-
-function currentMonthRange() {
-  const now = new Date();
-  const y = now.getFullYear();
-  const m = now.getMonth() + 1;
-  return monthRangeFrom(`${y}-${pad2(m)}`)!;
-}
 
 function getDisplayName(extra: ExtraRowWithClient) {
   if (extra.display_name) return String(extra.display_name);

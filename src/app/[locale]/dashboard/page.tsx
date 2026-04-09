@@ -1,11 +1,20 @@
 import Link from "next/link";
 import { isLocale, type Locale } from "@/i18n/config";
 import { formatEuro } from "@/lib/format";
+import { currentMonthRange } from "@/lib/monthRange";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 function sumMonthlySalaries(rows: { monthly_salary: unknown }[] | null) {
   return (rows ?? []).reduce((sum, row) => {
     const v = row.monthly_salary;
+    const n = typeof v === "number" ? v : Number.parseFloat(String(v));
+    return sum + (Number.isFinite(n) ? n : 0);
+  }, 0);
+}
+
+function sumExtraSalaries(rows: { salary: unknown }[] | null) {
+  return (rows ?? []).reduce((sum, row) => {
+    const v = row.salary;
     const n = typeof v === "number" ? v : Number.parseFloat(String(v));
     return sum + (Number.isFinite(n) ? n : 0);
   }, 0);
@@ -22,6 +31,7 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
 
   let clientTotal: number | null = null;
   let salaryMonthlyTotal: number | null = null;
+  let extrasMonthTotal: number | null = null;
   if (user) {
     const { data, error } = await supabase
       .from("clients")
@@ -35,6 +45,14 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
       clientTotal = rows.length;
       salaryMonthlyTotal = sumMonthlySalaries(rows);
     }
+
+    const { start, end } = currentMonthRange();
+    const { data: extrasRows, error: extrasErr } = await supabase
+      .from("extras")
+      .select("salary")
+      .gte("work_date", start)
+      .lte("work_date", end);
+    extrasMonthTotal = extrasErr ? 0 : sumExtraSalaries(extrasRows);
   }
 
   return (
@@ -71,7 +89,20 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
         <Link className="DashboardTile" href={`/${locale}/extras`}>
           <div className="DashboardTile__title">Extras</div>
           <div className="DashboardTile__subtitle">Track extra income jobs</div>
-          <div className="DashboardTile__stat DashboardTile__stat--muted">Filter by date and client/person</div>
+          {extrasMonthTotal !== null ? (
+            <div className="DashboardTile__metrics" aria-live="polite">
+              <div className="DashboardTile__metric">
+                <span className="DashboardTile__statNumber DashboardTile__statNumber--currency">
+                  {formatEuro(extrasMonthTotal, locale)}
+                </span>
+                <span className="DashboardTile__statCaption">extra income this month (EUR)</span>
+              </div>
+            </div>
+          ) : (
+            <div className="DashboardTile__stat DashboardTile__stat--muted">
+              Sign in to see this month&apos;s extra income total
+            </div>
+          )}
         </Link>
       </section>
     </div>
