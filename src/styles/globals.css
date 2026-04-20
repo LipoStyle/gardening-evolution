@@ -8,6 +8,7 @@
 @import "./components/HomeHero.css";
 @import "./components/Auth.css";
 @import "./components/Dashboard.css";
+@import "./components/DailyLogs.css";
 @import "./components/Calendar.css";
 @import "./components/Clients.css";
 @import "./components/Extras.css";

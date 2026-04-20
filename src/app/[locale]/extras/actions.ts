@@ -9,6 +9,17 @@ function parseMoney(raw: string) {
   return Number.isFinite(n) ? n : NaN;
 }
 
+function redirectToNewExtra(
+  locale: Locale,
+  opts: { error: string; work_date?: string; fromCalendar?: boolean }
+) {
+  const qs = new URLSearchParams();
+  qs.set("error", opts.error);
+  if (opts.work_date) qs.set("work_date", opts.work_date);
+  if (opts.fromCalendar) qs.set("from", "calendar");
+  redirect(`/${locale}/extras/new?${qs.toString()}`);
+}
+
 export async function createExtra(formData: FormData) {
   const rawLocale = String(formData.get("locale") ?? "en");
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
@@ -21,6 +32,8 @@ export async function createExtra(formData: FormData) {
   if (!user) {
     redirect(`/${locale}/login`);
   }
+
+  const fromCalendar = String(formData.get("from_calendar") ?? "") === "1";
 
   const clientIdRaw = String(formData.get("client_id") ?? "").trim();
   const client_id = clientIdRaw ? clientIdRaw : null;
@@ -37,11 +50,11 @@ export async function createExtra(formData: FormData) {
   const hasPerson = Boolean(first_name && last_name);
 
   if (!work_date || !Number.isFinite(salary) || salary < 0 || (!hasClient && !hasPerson) || (hasClient && hasPerson)) {
-    redirect(
-      `/${locale}/extras/new?error=${encodeURIComponent(
-        "Please provide a valid date, salary, and either select a client OR enter a first & last name."
-      )}`
-    );
+    redirectToNewExtra(locale, {
+      error: "Please provide a valid date, salary, and either select a client OR enter a first & last name.",
+      work_date: work_date || undefined,
+      fromCalendar,
+    });
   }
 
   const payload: Record<string, unknown> = {
@@ -58,7 +71,11 @@ export async function createExtra(formData: FormData) {
 
   const { error } = await supabase.from("extras").insert(payload);
   if (error) {
-    redirect(`/${locale}/extras/new?error=${encodeURIComponent(error.message)}`);
+    redirectToNewExtra(locale, { error: error.message, work_date, fromCalendar });
+  }
+
+  if (fromCalendar) {
+    redirect(`/${locale}/calendar/${work_date}?created=1`);
   }
 
   redirect(`/${locale}/extras?created=1`);

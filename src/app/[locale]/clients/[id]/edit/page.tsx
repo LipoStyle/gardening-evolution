@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { updateClient } from "@/app/[locale]/clients/actions";
+import { VisitScheduleFields } from "@/components/clients/VisitScheduleFields";
 import { isLocale, type Locale } from "@/i18n/config";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 
@@ -37,6 +38,12 @@ export default async function EditClientPage({
 
   const salaryStr =
     typeof client.monthly_salary === "number" ? String(client.monthly_salary) : String(client.monthly_salary ?? "");
+
+  const visitsPer =
+    typeof client.visits_per_month === "number" && Number.isFinite(client.visits_per_month)
+      ? client.visits_per_month
+      : 1;
+  const prefWeekdays = client.preferred_weekdays ?? null;
 
   return (
     <section className="AuthCard ClientsForm">
@@ -91,6 +98,8 @@ export default async function EditClientPage({
             Gross amount per month, in euros (€).
           </span>
         </label>
+
+        <VisitScheduleFields defaultVisitsPerMonth={visitsPer} defaultPreferredWeekdays={prefWeekdays} />
 
         <button className="AuthForm__submit" type="submit">
           Save changes

@@ -104,8 +104,14 @@ export default async function DashboardPage({ params }: { params: Promise<{ loca
             </div>
           )}
         </Link>
+        <Link className="DashboardTile" href={`/${locale}/daily-logs`}>
+          <div className="DashboardTile__title">Daily logs</div>
+          <div className="DashboardTile__subtitle">Work diary — view and edit your notes</div>
+          <div className="DashboardTile__stat DashboardTile__stat--muted">
+            {user ? "Open feed" : "Sign in to manage daily logs"}
+          </div>
+        </Link>
       </section>
     </div>
   );
 }
-

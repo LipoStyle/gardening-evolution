@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { createClient } from "@/app/[locale]/clients/actions";
+import { VisitScheduleFields } from "@/components/clients/VisitScheduleFields";
 import { isLocale, type Locale } from "@/i18n/config";
 
 export default async function NewClientPage({
@@ -64,6 +65,8 @@ export default async function NewClientPage({
             Gross amount per month, in euros (€).
           </span>
         </label>
+
+        <VisitScheduleFields />
 
         <button className="AuthForm__submit" type="submit">
           Create client

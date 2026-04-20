@@ -2,6 +2,36 @@
   width: min(560px, 100%);
 }
 
+.ClientsForm__weekdaysFieldset {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px 16px;
+  margin: 0;
+  background: color-mix(in srgb, var(--card) 40%, transparent);
+}
+
+.ClientsForm__weekdays {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.ClientsForm__weekday {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ClientsForm__weekdayInput {
+  width: 1rem;
+  height: 1rem;
+  accent-color: var(--focus);
+}
+
 .ClientsPage {
   display: flex;
   flex-direction: column;

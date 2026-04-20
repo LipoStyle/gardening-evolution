@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import * as React from "react";
+import { fetchCalendarMonth } from "@/app/[locale]/calendar/actions";
 import { localeToLangTag, type Locale } from "@/i18n/config";
+import type { CalendarDayVisitChip } from "@/types/clientVisit";
 
 const MONTHS = [
   "January",
@@ -147,10 +149,12 @@ function CalendarMonthGrid({
   year,
   monthIndex,
   locale,
+  visitsByDate,
 }: {
   year: number;
   monthIndex: number;
   locale: Locale;
+  visitsByDate: Record<string, CalendarDayVisitChip[]>;
 }) {
   const lang = localeToLangTag[locale];
   const today = React.useMemo(() => new Date(), []);
@@ -171,19 +175,39 @@ function CalendarMonthGrid({
         {days.map(({ date, iso }) => {
           const weekday = date.toLocaleDateString(lang, { weekday: "long" });
           const isToday = isSameCalendarDay(date, today);
+          const visitLabels = visitsByDate[iso] ?? [];
+          const visitSummary =
+            visitLabels.length === 0
+              ? ""
+              : ` · ${visitLabels.length} ${visitLabels.length === 1 ? "visit" : "visits"}: ${visitLabels.map((v) => v.name).join(", ")}`;
           return (
             <Link
               key={iso}
               href={`/${locale}/calendar/${iso}`}
               className={isToday ? "DayCard DayCard--today" : "DayCard"}
               role="listitem"
-              aria-label={date.toLocaleDateString(lang, { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
+              aria-label={
+                date.toLocaleDateString(lang, { weekday: "long", month: "long", day: "numeric", year: "numeric" }) +
+                visitSummary
+              }
             >
               <div className="DayCard__header">
                 <span>{date.getDate()}</span>
                 <span className="DayCard__headerLine">{weekday}</span>
               </div>
-              <div className="DayCard__body" />
+              <div className="DayCard__body">
+                <div className="DayCard__labels" aria-hidden={true}>
+                  {visitLabels.map((v) => (
+                    <span
+                      key={v.id}
+                      className="DayCard__label"
+                      style={{ ["--visit-accent" as string]: v.accent }}
+                    >
+                      {v.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </Link>
           );
         })}
@@ -197,6 +221,21 @@ export function CalendarSection({ locale }: { locale: Locale }) {
   const [year, setYear] = React.useState(now.getFullYear());
   const [monthIndex, setMonthIndex] = React.useState(now.getMonth());
   const [monthPickerOpen, setMonthPickerOpen] = React.useState(false);
+  const [visitsByDate, setVisitsByDate] = React.useState<Record<string, CalendarDayVisitChip[]>>({});
+
+  React.useEffect(() => {
+    let active = true;
+    fetchCalendarMonth(year, monthIndex)
+      .then((r) => {
+        if (active) setVisitsByDate(r.byDate);
+      })
+      .catch(() => {
+        if (active) setVisitsByDate({});
+      });
+    return () => {
+      active = false;
+    };
+  }, [year, monthIndex]);
 
   const goPrev = React.useCallback(() => {
     const next = addMonths(year, monthIndex, -1);
@@ -221,7 +260,12 @@ export function CalendarSection({ locale }: { locale: Locale }) {
         onOpenMonthPicker={() => setMonthPickerOpen(true)}
       />
 
-      <CalendarMonthGrid year={year} monthIndex={monthIndex} locale={locale} />
+      <CalendarMonthGrid
+        year={year}
+        monthIndex={monthIndex}
+        locale={locale}
+        visitsByDate={visitsByDate}
+      />
 
       <MonthPickerModal
         open={monthPickerOpen}

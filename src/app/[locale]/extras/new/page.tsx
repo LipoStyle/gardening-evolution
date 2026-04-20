@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createExtra } from "@/app/[locale]/extras/actions";
 import { isLocale, type Locale } from "@/i18n/config";
+import { parseIsoDate, toIsoDateString } from "@/lib/isoDate";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type { ClientRow } from "@/types/client";
 
@@ -9,11 +10,11 @@ export default async function NewExtraPage({
   searchParams,
 }: {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string; work_date?: string; from?: string }>;
 }) {
   const { locale: rawLocale } = await params;
   const locale: Locale = isLocale(rawLocale) ? rawLocale : "en";
-  const { error } = await searchParams;
+  const { error, work_date: workDateParam, from } = await searchParams;
 
   const supabase = await createSupabaseServerClient();
   const { data: clientsData } = await supabase.from("clients").select("id, name, surname").order("created_at", { ascending: false });
@@ -24,6 +25,10 @@ export default async function NewExtraPage({
   const mm = String(today.getMonth() + 1).padStart(2, "0");
   const dd = String(today.getDate()).padStart(2, "0");
   const todayStr = `${yyyy}-${mm}-${dd}`;
+
+  const parsedFromQuery = workDateParam ? parseIsoDate(workDateParam) : null;
+  const defaultWorkDate = parsedFromQuery ? toIsoDateString(parsedFromQuery) : todayStr;
+  const fromCalendar = from === "calendar";
 
   return (
     <section className="AuthCard ExtrasForm">
@@ -38,6 +43,7 @@ export default async function NewExtraPage({
 
       <form className="AuthForm" action={createExtra}>
         <input type="hidden" name="locale" value={locale} />
+        {fromCalendar ? <input type="hidden" name="from_calendar" value="1" /> : null}
 
         <label className="AuthField">
           <span className="AuthField__label">Existing client (optional)</span>
@@ -82,7 +88,7 @@ export default async function NewExtraPage({
 
         <label className="AuthField">
           <span className="AuthField__label">Date</span>
-          <input className="AuthField__input" type="date" name="work_date" defaultValue={todayStr} required />
+          <input className="AuthField__input" type="date" name="work_date" defaultValue={defaultWorkDate} required />
         </label>
 
         <label className="AuthField">

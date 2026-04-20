@@ -1,0 +1,488 @@
+.DailyLogs {
+  margin-top: clamp(8px, 2vw, 16px);
+  padding: clamp(16px, 3vw, 22px);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+  display: grid;
+  gap: 14px;
+}
+
+.DailyLogs__title {
+  margin: 0;
+  font-weight: 1000;
+  letter-spacing: -0.02em;
+  font-size: clamp(18px, 3vw, 22px);
+}
+
+.DailyLogs__hint,
+.DailyLogs__muted {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.DailyLogs__picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: flex-end;
+}
+
+.DailyLogs__pickerLabel {
+  display: grid;
+  gap: 6px;
+}
+
+.DailyLogs__pickerText {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.DailyLogs__pickerInput {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+}
+
+.DailyLogs__pickerInput:focus {
+  outline: 2px solid color-mix(in srgb, var(--focus) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.DailyLogs__flash {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.DailyLogs__flash--ok {
+  color: color-mix(in srgb, var(--fg) 75%, var(--muted));
+}
+
+.DailyLogs__flash--err {
+  color: #b91c1c;
+}
+
+[data-theme="dark"] .DailyLogs__flash--err {
+  color: #fca5a5;
+}
+
+.DailyLogs__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.DailyLogs__empty {
+  margin: 0;
+  padding: 12px 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.DailyLogs__item {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, var(--card));
+  display: grid;
+  gap: 10px;
+}
+
+.DailyLogs__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.DailyLogs__edited {
+  font-weight: 600;
+}
+
+.DailyLogs__label {
+  display: grid;
+  gap: 6px;
+}
+
+.DailyLogs__labelText {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.DailyLogs__textarea {
+  width: 100%;
+  box-sizing: border-box;
+  resize: vertical;
+  min-height: 88px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  line-height: 1.45;
+}
+
+.DailyLogs__textarea:focus {
+  outline: 2px solid color-mix(in srgb, var(--focus) 55%, transparent);
+  outline-offset: 2px;
+}
+
+.DailyLogs__rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.DailyLogs__deleteForm {
+  margin: 0;
+  padding-top: 4px;
+  border-top: 1px dashed color-mix(in srgb, var(--border) 70%, transparent);
+}
+
+.DailyLogs__createForm {
+  display: grid;
+  gap: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+
+.DailyLogs__btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 65%, var(--bg));
+  color: var(--fg);
+  font: inherit;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.DailyLogs__btn:hover {
+  background: color-mix(in srgb, var(--card) 45%, var(--bg));
+}
+
+.DailyLogs__btn--primary {
+  border-color: color-mix(in srgb, var(--focus) 35%, var(--border));
+  background: color-mix(in srgb, var(--focus) 18%, var(--bg));
+}
+
+.DailyLogs__btn--primary:hover {
+  background: color-mix(in srgb, var(--focus) 28%, var(--bg));
+}
+
+.DailyLogs__btn--danger {
+  border-color: color-mix(in srgb, #b91c1c 35%, var(--border));
+  color: #991b1b;
+}
+
+[data-theme="dark"] .DailyLogs__btn--danger {
+  color: #fecaca;
+}
+
+.DailyLogs__btn--danger:hover {
+  background: color-mix(in srgb, #b91c1c 12%, var(--bg));
+}
+
+/* —— Dedicated daily logs page —— */
+
+.DailyLogsPage {
+  display: grid;
+  gap: clamp(16px, 3vw, 24px);
+  max-width: min(720px, 100%);
+  margin: 0 auto;
+}
+
+.DailyLogsPage__hero {
+  display: grid;
+  gap: 8px;
+}
+
+.DailyLogsPage__title {
+  margin: 0;
+  font-weight: 1000;
+  letter-spacing: -0.03em;
+  font-size: clamp(24px, 4vw, 30px);
+}
+
+.DailyLogsPage__subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.DailyLogsPage__toolbar {
+  margin-top: 4px;
+}
+
+.DailyLogsPage__back {
+  font-weight: 800;
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--fg) 35%, transparent);
+}
+
+.DailyLogsPage__back:hover {
+  border-bottom-color: var(--fg);
+}
+
+.DailyLogsPage__filters {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--card);
+}
+
+.DailyLogsPage__filterForm {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: flex-end;
+}
+
+.DailyLogsPage__filterLabel {
+  display: grid;
+  gap: 6px;
+}
+
+.DailyLogsPage__filterText {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.DailyLogsPage__filterInput {
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+  font-weight: 600;
+}
+
+.DailyLogsPage__clearFilter {
+  align-self: center;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--fg);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in srgb, var(--fg) 35%, transparent);
+}
+
+.DailyLogsPage__clearFilter:hover {
+  border-bottom-color: var(--fg);
+}
+
+.DailyLogsPage__flash {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.DailyLogsPage__flash--ok {
+  color: color-mix(in srgb, var(--fg) 75%, var(--muted));
+}
+
+.DailyLogsPage__flash--err {
+  color: #b91c1c;
+}
+
+[data-theme="dark"] .DailyLogsPage__flash--err {
+  color: #fca5a5;
+}
+
+.DailyLogsPage__feedTitle,
+.DailyLogsPage__createTitle {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 1000;
+  letter-spacing: -0.02em;
+}
+
+.DailyLogsPage__feed {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+}
+
+.DailyLogsPage__empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.DailyLogsPage__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.DailyLogsPage__item {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--border) 85%, transparent);
+  background: color-mix(in srgb, var(--bg) 90%, var(--card));
+  display: grid;
+  gap: 10px;
+}
+
+.DailyLogsPage__itemHeader {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.DailyLogsPage__itemDay {
+  color: var(--fg);
+}
+
+.DailyLogsPage__itemBody {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.DailyLogsPage__itemActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  align-items: center;
+}
+
+.DailyLogsPage__linkBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-weight: 800;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--fg);
+  background: color-mix(in srgb, var(--card) 50%, var(--bg));
+}
+
+.DailyLogsPage__linkBtn:hover {
+  background: color-mix(in srgb, var(--card) 30%, var(--bg));
+}
+
+.DailyLogsPage__inlineForm {
+  margin: 0;
+}
+
+.DailyLogsPage__create {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: var(--card);
+}
+
+.DailyLogsPage__createForm {
+  display: grid;
+  gap: 12px;
+}
+
+.DailyLogsPage__field {
+  display: grid;
+  gap: 6px;
+}
+
+.DailyLogsPage__fieldLabel {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.DailyLogsPage__fieldInput,
+.DailyLogsPage__textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--fg);
+  font: inherit;
+}
+
+.DailyLogsPage__textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.45;
+}
+
+.DailyLogsPage__btn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--card) 65%, var(--bg));
+  color: var(--fg);
+  font: inherit;
+  font-weight: 800;
+  padding: 8px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.DailyLogsPage__btn:hover {
+  background: color-mix(in srgb, var(--card) 45%, var(--bg));
+}
+
+.DailyLogsPage__btn--primary {
+  border-color: color-mix(in srgb, var(--focus) 35%, var(--border));
+  background: color-mix(in srgb, var(--focus) 18%, var(--bg));
+}
+
+.DailyLogsPage__btn--primary:hover {
+  background: color-mix(in srgb, var(--focus) 28%, var(--bg));
+}
+
+.DailyLogsPage__btn--danger {
+  border-color: color-mix(in srgb, #b91c1c 35%, var(--border));
+  color: #991b1b;
+}
+
+[data-theme="dark"] .DailyLogsPage__btn--danger {
+  color: #fecaca;
+}
+
+.DailyLogsEdit {
+  max-width: min(560px, 100%);
+  margin: 0 auto;
+}
